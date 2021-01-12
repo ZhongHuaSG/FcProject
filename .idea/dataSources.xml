@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="TDengine" uuid="29299d0a-1bc3-47fd-90f0-e03c7f9e6bf1">
+      <driver-ref>4368a78a-bde2-48c6-b97b-b9e1d03e45b1</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>com.taosdata.jdbc.TSDBDriver</jdbc-driver>
+      <jdbc-url>jdbc:TAOS://127.0.0.1:6030/log</jdbc-url>
+    </data-source>
+  </component>
+</project>
