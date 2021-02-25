@@ -1,5 +1,6 @@
 package com.unilumin.fc.iot.mqtt;
 
+import com.unilumin.fc.iot.code.FinalTopicConst;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class MQTTListener implements ApplicationListener<ContextRefreshedEvent> 
   private String password;
   private final MQTTConnect server;
   private final InitCallback initCallback;
+  private FinalTopicConst topicConst;
 
   @Autowired
   public MQTTListener(MQTTConnect server, InitCallback initCallback) {
@@ -35,11 +37,12 @@ public class MQTTListener implements ApplicationListener<ContextRefreshedEvent> 
   public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
     try {
       server.setMqttClient(username, password, initCallback);
-      server.sub("COMMON_MODPARAS");
-      server.sub("COMMON_RECPARAS");
-      server.sub("CONTRAST");
-      server.sub("CURRENT_WORKTIME");
-      server.sub("goods");
+      server.sub(topicConst.MODPARAS);
+      server.sub(topicConst.RECPARAS);
+      server.sub(topicConst.CONTRAST);
+      server.sub(topicConst.WORKTIME);
+      server.sub(topicConst.GOODS);
+      server.sub(topicConst.GET_DEVICE_ID);
     } catch (MqttException e) {
       log.error(e.getMessage(), e);
     }

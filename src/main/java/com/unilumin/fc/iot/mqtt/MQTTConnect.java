@@ -18,7 +18,7 @@ public class MQTTConnect {
 
   @Value("${mqtt.host}")
   private String HOST;
-  private final String clientId = "Client" + (int) (Math.random() * 100000000);
+  private final String clientId = "FC_Unilumin_Server" + (int) (Math.random() * 100000000);
   private MqttClient mqttClient;
 
   /**
@@ -109,6 +109,7 @@ public class MQTTConnect {
   public void sub(String topic, int qos) throws MqttException {
     mqttClient.subscribe(topic, qos);
   }
+
 
   public static void main(String[] args) throws MqttException {
     MQTTConnect mqttConnect = new MQTTConnect();
