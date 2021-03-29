@@ -1,6 +1,7 @@
 package com.unilumin.fc.iot.service;
 
 import com.unilumin.fc.iot.mapper.master.DatabaseMapper;
+import com.unilumin.fc.iot.mapper.master.MonitorMapper;
 import com.unilumin.fc.iot.mapper.master.WeatherMapper;
 import com.unilumin.fc.iot.model.Weather;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ public class WeatherService {
 
     private final DatabaseMapper databaseMapper;
     private final WeatherMapper weatherMapper;
+    private final MonitorMapper monitorMapper;
 
     @Resource
     RedisService redisService;
@@ -31,11 +33,15 @@ public class WeatherService {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    public WeatherService(DatabaseMapper databaseMapper, WeatherMapper weatherMapper) {
+    public WeatherService(DatabaseMapper databaseMapper, WeatherMapper weatherMapper,MonitorMapper monitorMapper) {
         this.databaseMapper = databaseMapper;
         this.weatherMapper = weatherMapper;
+        this.monitorMapper = monitorMapper;
     }
 
+    /**
+     * 初始化数据库
+     * */
     public boolean init() {
         try {
             // 删除
@@ -49,8 +55,10 @@ public class WeatherService {
             databaseMapper.creatDatabaseWithParameters(map);
             // 选择
             databaseMapper.useDatabase("db");
-            // 创建表
+            // 天气表
             weatherMapper.createTable("db", "weather");
+            // 设备监控表
+            monitorMapper.createTable("db","monitor");
             return true;
         } catch (Exception e) {
             log.error("创建数据表出错", e);

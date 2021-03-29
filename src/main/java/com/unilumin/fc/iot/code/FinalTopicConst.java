@@ -17,14 +17,16 @@ public class FinalTopicConst {
 
     public static final String WORKTIME = "CURRENT_WORKTIME";
 
-    //下线状态---设备失去连接
+    //状态
+    public static final String STATUS = "FC/status/#";
 
-    public static final String DISCONNECTED = "/disconnected" ;
+    //下线状态---设备失去连接
+    public static final String DISCONNECTED = "disconnected" ;
 
     //FC项目Topic
 
     //第一次设备广播的主题、服务端接收的主题包
-    public static final String GET_DEVICE_ID = "/FC/getDeviceId";
+    public static final String GET_DEVICE_ID = "FC/getDeviceId";
 
 
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.unilumin.fc.iot.mapper.master.MonitorMapper">
+
+    <resultMap id="BaseResultMap" type="com.unilumin.fc.iot.model.Monitor">
+        <id column="ts" jdbcType="TIMESTAMP" property="ts"/>
+        <result column="temperature" jdbcType="INTEGER" property="temperature"/>
+        <result column="humidity" jdbcType="FLOAT" property="humidity"/>
+        <result column="voltage" jdbcType="FLOAT" property="voltage"/>
+        <result column="bitErroRate" jdbcType="FLOAT" property="bitErroRate"/>
+        <result column="electricity" jdbcType="FLOAT" property="electricity"/>
+        <result column="smoke" jdbcType="FLOAT" property="smoke"/>
+        <result column="workTime" jdbcType="BINARY" property="workTime"/>
+        <result column="workState" jdbcType="INTEGER" property="workState"/>
+        <result column="deviceType" jdbcType="INTEGER" property="type"/>
+        <result column="serialNum" jdbcType="BINARY" property="serialNum"/>
+    </resultMap>
+    
+    <update id="createTable">
+        create table if not exists ${dbName}.${tableName}(ts timestamp, temperature int, humidity float,voltage float,
+        bitErroRate float,electricity float,smoke float,workTime BINARY,workState int,deviceType int,serialNum BINARY);
+    </update>
+
+    <update id="dropTable" parameterType="java.lang.String">
+        drop ${tableName}
+    </update>
+
+    <insert id="insert" parameterType="com.unilumin.fc.iot.model.Monitor">
+        insert into db.monitor (ts,temperature,humidity,voltage,bitErroRate,electricity,smoke,workTime,workState,deviceType,serialNum)
+        values (now, #{temperature,jdbcType=INTEGER}, #{humidity,jdbcType=FLOAT},#{voltage,jdbcType=FLOAT},#{bitErroRate,jdbcType=FLOAT},#{electricity,jdbcType=FLOAT},#{smoke,jdbcType=FLOAT},#{workTime,jdbcType=BINARY},
+        #{workState,jdbcType=INTEGER},#{deviceType,jdbcType=INTEGER},#{serialNum,jdbcType=BINARY})
+    </insert>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into db.monitor (ts,temperature,humidity,voltage,bitErroRate,electricity,smoke,workTime,workState,deviceType,serialNum) values
+        <foreach separator=" " collection="list" item="monitor" index="index">
+            (now + #{index}a, #{monitor.temperature}, #{monitor.humidity}, #{monitor.voltage}, #{monitor.bitErroRate}, #{monitor.electricity}, #{monitor.smoke},
+             #{monitor.workTime}, #{monitor.workState}, #{monitor.deviceType}, #{monitor.serialNum})
+        </foreach>
+    </insert>
+
+    <sql id="Base_Column_List">
+        ts, temperature, humidity,voltage,bitErroRate,electricity,smoke,workTime,workState,deviceType,serialNum
+    </sql>
+
+    <select id="select" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from db.monitor
+        order by ts desc
+        <if test="limit != null">
+            limit #{limit,jdbcType=BIGINT}
+        </if>
+        <if test="offset != null">
+            offset #{offset,jdbcType=BIGINT}
+        </if>
+    </select>
+
+</mapper>

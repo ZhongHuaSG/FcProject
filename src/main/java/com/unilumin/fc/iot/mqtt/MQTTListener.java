@@ -43,6 +43,7 @@ public class MQTTListener implements ApplicationListener<ContextRefreshedEvent> 
       server.sub(topicConst.WORKTIME);
       server.sub(topicConst.GOODS);
       server.sub(topicConst.GET_DEVICE_ID);
+      server.sub(topicConst.STATUS);
     } catch (MqttException e) {
       log.error(e.getMessage(), e);
     }

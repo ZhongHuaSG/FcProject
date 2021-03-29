@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unilumin.fc.iot.mapper.cluster.DisplayDao">
+
+	<resultMap id="BaseResultMap" type="com.unilumin.fc.iot.model.Display">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="group_id" jdbcType="INTEGER" property="groupId" />
+		<result column="display_name" jdbcType="VARCHAR" property="displayName" />
+		<result column="display_context" jdbcType="LONGVARCHAR" property="displayContext" />
+		<result column="machine_code" jdbcType="VARCHAR" property="machineCode" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+
+	<insert id="insert" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+		insert into display (
+		group_id,
+		display_name,
+		display_context,
+		machine_code,
+		status
+		)
+ 	   values (
+		 #{groupId,jdbcType=INTEGER},
+		 #{displayName,jdbcType=VARCHAR},
+		 #{displayContext,jdbcType=LONGVARCHAR},
+		 #{machineCode,jdbcType=VARCHAR},
+		 #{status,jdbcType=INTEGER}
+		)
+
+
+	</insert>
+
+	<delete id="deleteByPrimaryKey" >
+		delete from  display 
+
+		where id = #{id} 
+ 
+
+	</delete>
+
+	<update id="update" >
+		update display
+		<set>
+			<if test="groupId!=null">group_id = #{groupId,jdbcType=INTEGER}, </if>
+			<if test="displayName!=null and displayName!=''">display_name = #{displayName,jdbcType=VARCHAR}, </if>
+			<if test="displayContext!=null and displayContext!=''">display_context = #{displayContext,jdbcType=LONGVARCHAR}, </if>
+			<if test="machineCode!=null and machineCode!=''">machine_code = #{machineCode,jdbcType=VARCHAR}, </if>
+			<if test="status!=null">status = #{status,jdbcType=INTEGER}, </if>
+			<if test="createTime!=null">create_time = #{createTime,jdbcType=TIMESTAMP}, </if>
+		</set>
+		where id=#{id}
+
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+		select
+		id,
+		group_id,
+		display_name,
+		display_context,
+		machine_code,
+		status,
+		create_time
+		from display
+		where id = #{id,jdbcType=INTEGER}
+
+	</select>
+
+	<select id="selectAll" resultMap="BaseResultMap" >
+		select
+		id,
+		group_id,
+		display_name,
+		display_context,
+		machine_code,
+		status,
+		create_time
+		from display
+		<where>
+		<if test="id!=null "> and display.id = #{id,jdbcType=INTEGER}</if>
+		<if test="groupId!=null "> and display.group_id = #{groupId,jdbcType=INTEGER}</if>
+		<if test="displayName!=null and displayName!=''"> and display.display_name = #{displayName,jdbcType=VARCHAR}</if>
+		<if test="displayContext!=null and displayContext!=''"> and display.display_context = #{displayContext,jdbcType=LONGVARCHAR}</if>
+		<if test="machineCode!=null and machineCode!=''"> and display.machine_code = #{machineCode,jdbcType=VARCHAR}</if>
+		<if test="status!=null "> and display.status = #{status,jdbcType=INTEGER}</if>
+		<if test="createTime!=null "> and display.create_time = #{createTime,jdbcType=TIMESTAMP}</if>
+		<if test=" startDate!=null and startDate!='' and endDate!=null and endDate!='' "> and display.create_time BETWEEN #{startDate} and #{endDate}</if>
+		</where>
+		<choose>
+          <when test="orderByString!=null and orderByString!=''">
+              ${orderByString}
+          </when>
+          <otherwise>
+              order by id desc
+          </otherwise>
+      </choose>
+
+	</select>
+
+	<select id="selectByCondition" resultMap="BaseResultMap" >
+		select
+		id,
+		group_id,
+		display_name,
+		display_context,
+		machine_code,
+		status,
+		create_time
+		from display
+		<where>
+		<if test="id!=null "> and display.id = #{id,jdbcType=INTEGER}</if>
+		<if test="groupId!=null "> and display.group_id = #{groupId,jdbcType=INTEGER}</if>
+		<if test="displayName!=null and displayName!=''"> and display.display_name = #{displayName,jdbcType=VARCHAR}</if>
+		<if test="displayContext!=null and displayContext!=''"> and display.display_context = #{displayContext,jdbcType=LONGVARCHAR}</if>
+		<if test="machineCode!=null and machineCode!=''"> and display.machine_code = #{machineCode,jdbcType=VARCHAR}</if>
+		<if test="status!=null "> and display.status = #{status,jdbcType=INTEGER}</if>
+		<if test="createTime!=null "> and display.create_time = #{createTime,jdbcType=TIMESTAMP}</if>
+		<if test=" startDate!=null and startDate!='' and endDate!=null and endDate!='' "> and display.create_time BETWEEN #{startDate} and #{endDate}</if>
+		</where>
+		<choose>
+          <when test="orderByString!=null and orderByString!=''">
+              ${orderByString}
+          </when>
+          <otherwise>
+              order by id desc
+          </otherwise>
+      </choose>
+
+	</select>
+
+</mapper>
